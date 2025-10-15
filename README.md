@@ -23,6 +23,7 @@ O seguinte desafio foi realizado com as seguintes ferramentas e SO:
 ```bash
 cd backend/
 npm install  # ou somente 'npm i'
+npm run build
 npm run start
 ```
 
