@@ -2,13 +2,15 @@ import {
   isRouteErrorResponse,
   Links,
   Meta,
+  NavLink,
   Outlet,
   Scripts,
   ScrollRestoration,
 } from "react-router";
-
 import type { Route } from "./+types/root";
 import "./app.css";
+
+import { useAuth } from "./auth/useAuth";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -25,7 +27,7 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -42,7 +44,62 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const isLogged = useAuth();
+
+  return (
+    <>
+      <nav className="bg-white shadow p-4">
+        <div className="container mx-auto flex items-center justify-between">
+          <NavLink to="/" className="text-2xl font-bold text-indigo-600">
+            RRV7 Crud
+          </NavLink>
+          <div className="space-x-4">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? "text-indigo-600" : "text-gray-600"
+              }
+            >
+              Items
+            </NavLink>
+
+            {isLogged ? (
+              <NavLink
+                to="/new"
+                className={({ isActive }) =>
+                  isActive ? "text-indigo-600" : "text-gray-600"
+                }
+              >
+                New Item
+              </NavLink>
+            ) : (
+              <>
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive ? "text-indigo-600" : "text-gray-600"
+                  }
+                >
+                  Login
+                </NavLink>
+                <NavLink
+                  to="/register"
+                  className={({ isActive }) =>
+                    isActive ? "text-indigo-600" : "text-gray-600"
+                  }
+                >
+                  Register
+                </NavLink>
+              </>
+            )}
+          </div>
+        </div>
+      </nav>
+      <main className="container mx-auto p-4">
+        <Outlet />
+      </main>
+    </>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
