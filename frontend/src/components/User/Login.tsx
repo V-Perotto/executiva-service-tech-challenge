@@ -45,7 +45,7 @@ const Login = ({ context: path }: any) => {
       setLogin(true);
       await login(user);
       if (!error) {
-        toast.success('Logado com sucesso', {
+        toast.success('Conectado com sucesso', {
           style: {
             background: '#333',
             color: '#fff',
