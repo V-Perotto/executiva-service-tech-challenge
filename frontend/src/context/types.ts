@@ -11,6 +11,7 @@ export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const SET_TODO_LOADING = 'SET_TODO_LOADING';
 export const GET_TODOS = 'GET_TODOS';
 export const CREATE_TODO = 'CREATE_TODO';
+export const UPDATE_TODO = 'UPDATE_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 export const CHANGE_STATUS = 'CHANGE_STATUS';
 export const TODO_FAIL= 'TODO_FAIL';

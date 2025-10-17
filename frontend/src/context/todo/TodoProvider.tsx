@@ -4,6 +4,7 @@ import axios from 'axios';
 import {
   GET_TODOS,
   CREATE_TODO,
+  UPDATE_TODO,
   DELETE_TODO,
   TODO_FAIL,
   CLEAR_ERROR,
@@ -75,6 +76,30 @@ const TodoProvider = (props: any) => {
     }
   };
 
+  const updateTodo = async (id: string, updates: { titulo?: string, descricao?: string }) => {
+    try {
+      if (localStorage.token) {
+        setAuthToken(localStorage.token);
+      }
+      dispatch({ type: SET_LOADING });
+      
+      await axios.put(url + '/todos', { id, ...updates });
+
+      dispatch({
+        type: UPDATE_TODO,
+        payload: {
+          id,
+          ...updates,
+        },
+      });
+    } catch (err: any) {
+      dispatch({
+        type: TODO_FAIL,
+        payload: err.response.data.error,
+      });
+    }
+  };
+
   const deleteTodo = async (id: string) => {
     try {
       if (localStorage.token) {
@@ -134,6 +159,7 @@ const TodoProvider = (props: any) => {
         todos: state.todos,
         error: state.error,
         createTodo,
+        updateTodo,
         changeStatus,
         clearError,
         getTodos,

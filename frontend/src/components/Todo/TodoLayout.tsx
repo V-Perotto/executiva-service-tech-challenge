@@ -27,6 +27,7 @@ const TodoLayout = () => {
     error,
     getTodos,
     createTodo,
+    updateTodo,
     changeStatus,
     deleteTodo,
     clearError,
@@ -149,9 +150,64 @@ const TodoLayout = () => {
     }
   };
 
+  const updateTodoHandler = async (id: string, titulo?: string, descricao?: string) => {
+    try {
+      const loadingToast = toast.loading('Editando Tarefa...', {
+        style: { background: '#333', color: '#fff' },
+      });
+
+      if (!updateTodo) {
+        toast.error('Função de edição de tarefa não encontrada.', {
+          style: { background: '#333', color: '#fff' },
+        });
+        toast.dismiss(loadingToast);
+        return;
+      }
+
+      if (!id) {
+        toast.error('ID da tarefa não fornecido.', {
+          style: { background: '#333', color: '#fff' },
+        });
+        toast.dismiss(loadingToast);
+        return;
+      }
+
+      const updates: { titulo?: string, descricao?: string } = {};
+
+      if (titulo !== undefined && titulo.trim() !== '') {
+        updates.titulo = titulo;
+      }
+      if (descricao !== undefined && descricao.trim() !== '') {
+        updates.descricao = descricao;
+      }
+
+      if (Object.keys(updates).length === 0) {
+        toast.error('Nenhum campo para editar fornecido.', {
+          style: { background: '#333', color: '#fff' },
+        });
+        toast.dismiss(loadingToast);
+        return;
+      }
+      
+      await updateTodo(id, updates); 
+
+      if (!error && !loading) {
+        toast.success('Tarefa editada com sucesso!', {
+          style: { background: '#333', color: '#fff' },
+        });
+      }
+
+      toast.dismiss(loadingToast);
+    } catch (err) {
+      toast.error(error || (err as string), {
+        style: { background: '#333', color: '#fff' },
+      });
+    }
+  }
+
   const deleteTodoHandler = async (id: string) => {
     try {
-      const loadingToast = toast.loading('Deleting Todo...', {
+      const loadingToast = toast.loading('Excluindo Tarefa...', {
         style: {
           background: '#333',
           color: '#fff',
@@ -159,7 +215,7 @@ const TodoLayout = () => {
       });
 
       if (!deleteTodo) {
-        toast.error('Something went wrong', {
+        toast.error('Algo deu errado', {
           style: {
             background: '#333',
             color: '#fff',
@@ -170,7 +226,7 @@ const TodoLayout = () => {
 
       await deleteTodo(id);
       if (!error && !loading) {
-        toast.success('Todo Deleted Successfuly', {
+        toast.success('Tarefa excluida com sucesso', {
           style: {
             background: '#333',
             color: '#fff',
@@ -190,7 +246,7 @@ const TodoLayout = () => {
 
   const logoutHandler = () => {
     logout();
-    toast.success('Logged out Successfully', {
+    toast.success('Desconectado com sucesso', {
       style: {
         background: '#333',
         color: '#fff',
@@ -269,6 +325,7 @@ const TodoLayout = () => {
                   todo={todo}
                   id={todo._id as string}
                   deleteTodoHandler={deleteTodoHandler}
+                  updateTodoHandler={updateTodoHandler}
                   changeStatus={changeStatusHandler}
                 />
               );

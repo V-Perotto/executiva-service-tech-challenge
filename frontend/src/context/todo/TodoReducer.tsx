@@ -1,6 +1,7 @@
 import {
   GET_TODOS,
   CREATE_TODO,
+  UPDATE_TODO,
   DELETE_TODO,
   CHANGE_STATUS,
   TODO_FAIL,
@@ -33,6 +34,22 @@ const todoReducer = (state: any, action: any) => {
       return {
         ...state,
         todos: [...state.todos, action.payload],
+        loading: false,
+      };
+
+    case UPDATE_TODO:
+      return {
+        ...state,
+        todos: state.todos.map((todo: any) => {
+          if (todo && todo._id === action.payload.id) {
+            return {
+              ...todo,
+              titulo: action.payload.titulo,
+              descricao: action.payload.descricao,
+            };
+          }
+          return todo;
+        }),
         loading: false,
       };
 
