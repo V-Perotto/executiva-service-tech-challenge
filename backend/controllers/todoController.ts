@@ -5,9 +5,7 @@ import { Request, Response } from 'express';
 
 const createTodo = async (req: Request, res: Response) => {
   const createPayload = req.body;
-  console.log("create", createPayload);
   const parsedPayload = createTodoSchema.safeParse(createPayload);
-  console.log("parsedPayload", parsedPayload);
   if (!parsedPayload.success) {
     res.status(411).json({ error: parsedPayload.error });
     return;
