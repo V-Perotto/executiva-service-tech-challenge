@@ -20,16 +20,63 @@ O seguinte desafio foi realizado com as seguintes ferramentas e SO:
 ## 🔙 Acessando e criando o Backend
 
 ```bash
-cd backend/
-npm install  # ou somente 'npm i'
-npm run build
-npm run start
+$ cd backend/ 
+```
+
+### Variáveis de ambiente
+
+Crie um arquivo `.env` para suas variáveis de ambiente que contenham os seguintes dados:
+
+- Exemplo em bash:
+
+```bash
+$ touch .env
+$ nano .env
+```
+
+Então escreva e salve:
+
+```py
+MONGODB_URI='mongodb://localhost:27017/executiva'
+JWT_SECRET='o_seu_segredo_aqui'
+FRONTEND_URL='http://localhost:5173'
+PORT=3001
+```
+
+Depois continue com o processo de instalação e execução do sistema
+
+```bash
+$ npm install  # ou somente 'npm i'
+$ npm run build
+$ npm run start
 ```
 
 ## 💻 Acessando e criando o Frontend
 
 ```bash
-cd frontend/
-npm install  # ou somente 'npm i'
-npm run dev
+$ cd frontend/
+```
+
+### Variáveis de ambiente
+
+Crie um arquivo `.env` para suas variáveis de ambiente que contenham os seguintes dados:
+
+- Exemplo em bash:
+
+```bash
+$ touch .env
+$ nano .env
+```
+
+Então escreva e salve:
+
+```py
+VITE_BACKEND_URL='http://localhost:3001'
+```
+
+Depois continue com o processo de instalação e execução do sistema
+
+```bash
+$ npm install  # ou somente 'npm i'
+$ npm run dev
 ```
